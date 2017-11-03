@@ -15,6 +15,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * 使用Java形式进行显示配置，编写配置类
  * 配置用户访问路径和用户的操作逻辑
  * 通过继承webSecurityConfigurerAdapter
+ * 通过@Profile("production")注解表明只有配置文件中的profile为：
+*        spring:
+            profiles:
+                active: production
+    才生效，没有激活就会忽略该类的配置
  */
 @Profile("production")
 @Configuration
