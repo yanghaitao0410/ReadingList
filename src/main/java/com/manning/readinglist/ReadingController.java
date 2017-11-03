@@ -1,6 +1,7 @@
 package com.manning.readinglist;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +12,13 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/readingList")
+@ConfigurationProperties(prefix = "amazon")
 public class ReadingController {
+
+    /**
+     * 较好的办法是单独创建一个实体类存放该属性，为了之后的扩展性
+     */
+    private String associateId;
 
     private ReadingListRepository readingListRepository;
 
@@ -20,11 +27,17 @@ public class ReadingController {
         this.readingListRepository = readingListRepository;
     }
 
+    public void setAssociateId(String associateId) {
+        this.associateId = associateId;
+    }
+
     @RequestMapping(value = "/{reader}", method = RequestMethod.GET)
     public String readingBooks(@PathVariable("reader") String reader, Model model){
         List<Book> readingList = readingListRepository.findByReader(reader);
         if(readingList != null){
             model.addAttribute("books", readingList);
+            model.addAttribute("reader", reader);
+            model.addAttribute("amazonId", associateId);
         }
         return "readingList";
     }

@@ -4,3 +4,42 @@ server:
     key-store: mykeys.jks
     key-store-password: letmein
     key-password: letmein
+amazon:
+  associateId: habuma-20
+
+#设置当前profiles
+spring:
+  profiles:
+    active: production
+
+#该文件通过(---)将配置文件分为三部分，
+#第二段和第三段分别为spring.profiles指定了一个值，这个值表示该部分配置应该应用在
+#哪个Profile中，第二段定义的属性在development被激活时生效，第三段类似
+#第一段没有指定spring.profiles,因此这里的属性对全部的Profiles都生效
+logging:
+  level: info
+
+---
+
+
+spring:
+  profiles: development
+logging:
+  level: debug
+
+---
+
+
+spring:
+  profiles: production
+logging:
+  path: /
+  file: BookWorm.log
+  level: warn
+
+
+
+
+
+
+
