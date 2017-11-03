@@ -1,8 +1,10 @@
 package com.manning.readinglist;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,10 +15,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * 配置用户访问路径和用户的操作逻辑
  * 通过继承webSecurityConfigurerAdapter
  */
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private ReaderRepositoty readerRepositoty;
+    private ReaderRepository readerRepository;
 
     /**
      * 设置访问路径
@@ -50,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return readerRepositoty.findOne(username);
+                return readerRepository.findOne(username);
             }
         });
     }
